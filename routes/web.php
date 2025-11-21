@@ -45,3 +45,6 @@ Route::middleware(['auth', 'role:admin'])
 
         Route::resource('products', ProductController::class);
     });
+
+// Include auth routes
+require __DIR__ . '/auth.php';
