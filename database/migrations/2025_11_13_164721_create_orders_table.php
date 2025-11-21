@@ -14,9 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+    $table->id();
+    $table->foreignId('user_id')->constrained()->onDelete('cascade');
+    $table->decimal('total', 12, 2);
+    $table->enum('status', ['pending','paid','preparing','shipped','completed','cancelled'])->default('pending');
+    $table->text('address');
+    $table->string('payment_method')->nullable();
+    $table->enum('payment_status', ['unpaid','paid','failed'])->default('unpaid');
+    $table->timestamps();
+    });
+
     }
 
     /**

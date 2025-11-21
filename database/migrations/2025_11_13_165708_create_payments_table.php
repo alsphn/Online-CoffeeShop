@@ -14,9 +14,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+    $table->id();
+    $table->foreignId('order_id')->constrained()->onDelete('cascade');
+    $table->decimal('amount', 12,2);
+    $table->string('method');
+    $table->enum('status', ['pending','completed','failed'])->default('pending');
+    $table->string('transaction_reference')->nullable();
+    $table->timestamps();
+});
+
     }
 
     /**
