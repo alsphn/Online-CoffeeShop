@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
@@ -14,11 +13,12 @@ class CartController extends Controller
     {
         $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
         $cartItems = $cart->items()->with('product')->get();
+        
         $total = $cartItems->sum(function ($item) {
-            return $item->quantity * $item->product->price;
+            return $item->qty * $item->product->price;
         });
 
-        return view('cart.index', compact('cartItems', 'total'));
+        return view('member.cart.index', compact('cartItems', 'total'));
     }
 
     public function add(Request $request, $id)
@@ -26,35 +26,43 @@ class CartController extends Controller
         $product = Product::findOrFail($id);
         $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
 
-        $quantity = $request->input('quantity', 1);
+        $qty = $request->input('qty', 1);
 
-        // Check if product already in cart
         $cartItem = CartItem::where('cart_id', $cart->id)
             ->where('product_id', $product->id)
             ->first();
 
         if ($cartItem) {
-            $cartItem->quantity += $quantity;
+            $cartItem->qty += $qty;
             $cartItem->save();
         } else {
             CartItem::create([
                 'cart_id' => $cart->id,
                 'product_id' => $product->id,
-                'quantity' => $quantity,
+                'qty' => $qty,
                 'price' => $product->price
             ]);
         }
 
-        return redirect()->route('cart.index')->with('success', 'Produk berhasil ditambahkan ke keranjang');
+        return redirect()->route('member.cart.index')
+            ->with('success', 'Produk berhasil ditambahkan ke keranjang');
     }
 
     public function update(Request $request, $id)
     {
         $cartItem = CartItem::findOrFail($id);
-        $cartItem->quantity = $request->quantity;
+
+        $qty = (int) $request->input('qty', 1);
+
+        if ($qty < 1) {
+            return redirect()->back()->with('error', 'Qty tidak boleh kurang dari 1');
+        }
+
+        $cartItem->qty = $qty;
         $cartItem->save();
 
-        return redirect()->route('cart.index')->with('success', 'Keranjang berhasil diupdate');
+        return redirect()->route('member.cart.index')
+            ->with('success', 'Keranjang berhasil diupdate');
     }
 
     public function delete($id)
@@ -62,6 +70,7 @@ class CartController extends Controller
         $cartItem = CartItem::findOrFail($id);
         $cartItem->delete();
 
-        return redirect()->route('cart.index')->with('success', 'Item berhasil dihapus dari keranjang');
+        return redirect()->route('member.cart.index')
+            ->with('success', 'Item berhasil dihapus dari keranjang');
     }
 }
