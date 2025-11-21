@@ -7,8 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'name', 'description', 'category_id', 'price', 'stock', 'image'
+        'name',
+        'slug',
+        'description',
+        'price',
+        'stock',
+        'category_id',
+        'image_path', // kolom yang benar di database
     ];
 
     public function category()
