@@ -106,7 +106,7 @@
                         <a class="nav-link" href="{{ route('home') }}">Home</a>
                     </li>
                     @auth
-                    @if(auth()->user()->role->name === 'admin')
+                    @if(auth()->user()->role === 'admin')
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.dashboard') }}">
                             <i class="fas fa-user-shield"></i> Admin Panel

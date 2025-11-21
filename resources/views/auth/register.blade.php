@@ -1,52 +1,93 @@
+@section('title', 'Register')
+
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
+    <!-- Left Side - Welcome Message -->
+    <div class="auth-left">
+        <i class="fas fa-user-plus"></i>
+        <h2>Join Us Today!</h2>
+        <p>Create an account and start enjoying our premium coffee collection with exclusive member benefits</p>
         <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+            <p class="mb-2">Already have an account?</p>
+            <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-sign-in-alt"></i> Login Now
             </a>
-
-            <x-primary-button class="ml-4">
-                {{ __('Register') }}
-            </x-primary-button>
         </div>
-    </form>
+    </div>
+
+    <!-- Right Side - Register Form -->
+    <div class="auth-right">
+        <div class="brand-logo">
+            <i class="fas fa-coffee"></i>
+            <h3>Online CoffeeShop</h3>
+            <p class="text-muted">Create your account</p>
+        </div>
+
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
+
+            <!-- Name -->
+            <div class="mb-3">
+                <label for="name" class="form-label">
+                    <i class="fas fa-user"></i> Full Name
+                </label>
+                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                    name="name" value="{{ old('name') }}" required autofocus autocomplete="name"
+                    placeholder="Enter your full name">
+                @error('name')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Email Address -->
+            <div class="mb-3">
+                <label for="email" class="form-label">
+                    <i class="fas fa-envelope"></i> Email Address
+                </label>
+                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                    name="email" value="{{ old('email') }}" required autocomplete="username"
+                    placeholder="Enter your email">
+                @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">
+                    <i class="fas fa-lock"></i> Password
+                </label>
+                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
+                    name="password" required autocomplete="new-password"
+                    placeholder="Create a password">
+                @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+                <small class="text-muted">Min. 8 characters</small>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-4">
+                <label for="password_confirmation" class="form-label">
+                    <i class="fas fa-lock"></i> Confirm Password
+                </label>
+                <input id="password_confirmation" type="password" class="form-control"
+                    name="password_confirmation" required autocomplete="new-password"
+                    placeholder="Confirm your password">
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </div>
+
+            <!-- Back to Home -->
+            <div class="text-center">
+                <a href="{{ route('home') }}" class="text-link">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </form>
+    </div>
 </x-guest-layout>

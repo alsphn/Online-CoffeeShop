@@ -16,7 +16,7 @@
                 </li>
 
                 @auth
-                @if(auth()->user()->role->name === 'member')
+                @if(auth()->user()->role === 'member')
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('member.dashboard') ? 'active' : '' }}" href="{{ route('member.dashboard') }}">
                         <i class="fas fa-tachometer-alt"></i> Dashboard
@@ -34,7 +34,7 @@
                 </li>
                 @endif
 
-                @if(auth()->user()->role->name === 'admin')
+                @if(auth()->user()->role === 'admin')
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.dashboard') }}">
                         <i class="fas fa-user-shield"></i> Admin Panel
@@ -48,9 +48,6 @@
                         <i class="fas fa-user"></i> {{ Auth::user()->name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                            <i class="fas fa-user-edit"></i> Profile
-                        </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

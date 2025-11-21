@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
         'tanggal',
         'alamat'
     ];
@@ -43,10 +44,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function role(){ return $this->belongsTo(Role::class); }
-public function cart(){ return $this->hasOne(Cart::class); }
-public function orders(){ return $this->hasMany(Order::class); }
 
-public function isAdmin(){ return $this->role && $this->role->name === 'admin'; }
+    // Relasi
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+    }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    // Helper methods
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isMember()
+    {
+        return $this->role === 'member';
+    }
 }

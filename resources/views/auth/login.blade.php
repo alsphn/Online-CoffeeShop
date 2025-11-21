@@ -1,47 +1,91 @@
+@section('title', 'Login')
+
 <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
+    <!-- Left Side - Welcome Message -->
+    <div class="auth-left">
+        <i class="fas fa-coffee"></i>
+        <h2>Welcome Back!</h2>
+        <p>Login to access your account and enjoy our premium coffee selection</p>
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+            <p class="mb-2">Don't have an account?</p>
+            <a href="{{ route('register') }}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-user-plus"></i> Create Account
+            </a>
+        </div>
+    </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+    <!-- Right Side - Login Form -->
+    <div class="auth-right">
+        <div class="brand-logo">
+            <i class="fas fa-coffee"></i>
+            <h3>Online CoffeeShop</h3>
+            <p class="text-muted">Sign in to your account</p>
         </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
+        <!-- Session Status -->
+        @if (session('status'))
+        <div class="alert alert-success mb-4">
+            <i class="fas fa-check-circle"></i> {{ session('status') }}
         </div>
+        @endif
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+
+            <!-- Email Address -->
+            <div class="mb-3">
+                <label for="email" class="form-label">
+                    <i class="fas fa-envelope"></i> Email Address
+                </label>
+                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                    name="email" value="{{ old('email') }}" required autofocus autocomplete="username"
+                    placeholder="Enter your email">
+                @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">
+                    <i class="fas fa-lock"></i> Password
+                </label>
+                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
+                    name="password" required autocomplete="current-password"
+                    placeholder="Enter your password">
+                @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Remember Me & Forgot Password -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="remember_me" name="remember">
+                    <label class="form-check-label" for="remember_me">
+                        Remember me
+                    </label>
+                </div>
+                @if (Route::has('password.request'))
+                <a href="{{ route('password.request') }}" class="text-link">
+                    Forgot Password?
                 </a>
-            @endif
+                @endif
+            </div>
 
-            <x-primary-button class="ml-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
+            <!-- Submit Button -->
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </div>
+
+            <!-- Back to Home -->
+            <div class="text-center">
+                <a href="{{ route('home') }}" class="text-link">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </form>
+    </div>
 </x-guest-layout>
