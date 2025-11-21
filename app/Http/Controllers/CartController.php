@@ -13,9 +13,9 @@ class CartController extends Controller
     {
         $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
         $cartItems = $cart->items()->with('product')->get();
-        
+
         $total = $cartItems->sum(function ($item) {
-            return $item->qty * $item->product->price;
+            return $item->qty * $item->price;
         });
 
         return view('member.cart.index', compact('cartItems', 'total'));
@@ -33,13 +33,13 @@ class CartController extends Controller
             ->first();
 
         if ($cartItem) {
-            $cartItem->qty += $qty;
+            $cartItem->qty += $quantity;
             $cartItem->save();
         } else {
             CartItem::create([
                 'cart_id' => $cart->id,
                 'product_id' => $product->id,
-                'qty' => $qty,
+                'qty' => $quantity,
                 'price' => $product->price
             ]);
         }
@@ -51,14 +51,7 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $cartItem = CartItem::findOrFail($id);
-
-        $qty = (int) $request->input('qty', 1);
-
-        if ($qty < 1) {
-            return redirect()->back()->with('error', 'Qty tidak boleh kurang dari 1');
-        }
-
-        $cartItem->qty = $qty;
+        $cartItem->qty = $request->input('quantity', $request->input('qty', 1));
         $cartItem->save();
 
         return redirect()->route('member.cart.index')

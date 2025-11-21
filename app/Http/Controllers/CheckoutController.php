@@ -21,7 +21,7 @@ class CheckoutController extends Controller
 
         $cartItems = $cart->items()->with('product')->get();
         $total = $cartItems->sum(function ($item) {
-            return $item->quantity * $item->product->price;
+            return $item->qty * $item->price;
         });
 
         return view('checkout.form', compact('cartItems', 'total'));
@@ -46,7 +46,7 @@ class CheckoutController extends Controller
         try {
             $cartItems = $cart->items()->with('product')->get();
             $total = $cartItems->sum(function ($item) {
-                return $item->quantity * $item->product->price;
+                return $item->qty * $item->price;
             });
 
             // Create order
@@ -64,13 +64,13 @@ class CheckoutController extends Controller
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $cartItem->product_id,
-                    'quantity' => $cartItem->quantity,
-                    'price' => $cartItem->product->price
+                    'quantity' => $cartItem->qty,
+                    'price' => $cartItem->price
                 ]);
 
                 // Update product stock
                 $product = $cartItem->product;
-                $product->stock -= $cartItem->quantity;
+                $product->stock -= $cartItem->qty;
                 $product->save();
             }
 
