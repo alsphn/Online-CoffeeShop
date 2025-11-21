@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderAdminController;
+use App\Http\Controllers\Admin\ProductAdminController;
 
 // Halaman awal (public)
 Route::get('/', [ProductController::class, 'index'])->name('home');
@@ -43,7 +44,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/orders', [OrderAdminController::class, 'index'])->name('orders.index');
         Route::put('/orders/{id}/status', [OrderAdminController::class, 'updateStatus'])->name('orders.updateStatus');
 
-        Route::resource('products', ProductController::class);
+        Route::resource('products', ProductAdminController::class) ->names('products');
     });
 
 // Include auth routes
