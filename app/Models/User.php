@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
+        'role_id',
         'tanggal',
         'alamat'
     ];
@@ -59,11 +59,11 @@ class User extends Authenticatable
     // Helper methods
     public function isAdmin()
     {
-        return $this->role === 'admin';
+        return $this->role_id === '1';
     }
 
     public function isMember()
     {
-        return $this->role === 'member';
+        return $this->role_id === '2';
     }
 }
