@@ -15,7 +15,7 @@ class CartController extends Controller
         $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
         $cartItems = $cart->items()->with('product')->get();
         $total = $cartItems->sum(function ($item) {
-            return $item->quantity * $item->product->price;
+            return $item->qty * $item->price;
         });
 
         return view('cart.index', compact('cartItems', 'total'));
@@ -34,13 +34,13 @@ class CartController extends Controller
             ->first();
 
         if ($cartItem) {
-            $cartItem->quantity += $quantity;
+            $cartItem->qty += $quantity;
             $cartItem->save();
         } else {
             CartItem::create([
                 'cart_id' => $cart->id,
                 'product_id' => $product->id,
-                'quantity' => $quantity,
+                'qty' => $quantity,
                 'price' => $product->price
             ]);
         }
@@ -51,7 +51,7 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $cartItem = CartItem::findOrFail($id);
-        $cartItem->quantity = $request->quantity;
+        $cartItem->qty = $request->input('quantity', $request->input('qty', 1));
         $cartItem->save();
 
         return redirect()->route('cart.index')->with('success', 'Keranjang berhasil diupdate');

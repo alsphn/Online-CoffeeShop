@@ -27,4 +27,16 @@ class CartItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    // Accessor for quantity (alias for qty)
+    public function getQuantityAttribute()
+    {
+        return $this->qty;
+    }
+
+    // Mutator for quantity (alias for qty)
+    public function setQuantityAttribute($value)
+    {
+        $this->attributes['qty'] = $value;
+    }
 }
