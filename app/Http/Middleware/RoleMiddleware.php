@@ -14,21 +14,22 @@ class RoleMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle($request, Closure $next, $role)
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
 
-    if (!$user) {
-        abort(403, 'Unauthorized');
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        // Check role_id: admin = 1, member = 2
+        if ($role === 'admin' && $user->role_id != 1) {
+            abort(403, 'Unauthorized Action - Admin access only');
+        }
+
+        if ($role === 'member' && $user->role_id != 2) {
+            abort(403, 'Unauthorized Action - Member access only');
+        }
+
+        return $next($request);
     }
-
-    if ($role === 'admin' && $user->role_id != 1) {
-        abort(403, 'Unauthorized Action');
-    }
-
-    if ($role === 'member' && $user->role_id != 2) {
-        abort(403, 'Unauthorized Action');
-    }
-
-    return $next($request);
-}
 }

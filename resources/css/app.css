@@ -68,6 +68,11 @@ body {
     animation: spin 1s ease-in-out infinite;
 }
 
+.page-link svg {
+    width: 1rem !important;
+    height: 1rem !important;
+}
+
 @keyframes spin {
     to {
         transform: rotate(360deg);
