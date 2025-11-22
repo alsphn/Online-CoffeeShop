@@ -27,4 +27,10 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    // Accessor for quantity (alias for qty)
+    public function getQuantityAttribute()
+    {
+        return $this->qty;
+    }
 }
