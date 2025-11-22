@@ -64,8 +64,8 @@
             @forelse($products as $product)
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card mb-4">
-                    @if($product->image)
-                    <img src="{{ asset('storage/'.$product->image) }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="{{ $product->name }}">
+                    @if($product->image_path)
+                    <img src="{{ asset('storage/'.$product->image_path) }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="{{ $product->name }}">
                     @else
                     <div class="card-img-top d-flex align-items-center justify-content-center bg-gradient-purple text-white" style="height: 200px;">
                         <i class="fas fa-mug-hot fa-4x"></i>

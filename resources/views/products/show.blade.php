@@ -26,8 +26,8 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body p-0">
-                        @if($product->image)
-                        <img src="{{ asset('storage/'.$product->image) }}" class="img-fluid" alt="{{ $product->name }}" style="width: 100%; height: 400px; object-fit: cover;">
+                        @if($product->image_path)
+                        <img src="{{ asset('storage/'.$product->image_path) }}" class="img-fluid" alt="{{ $product->name }}" style="width: 100%; height: 400px; object-fit: cover;">
                         @else
                         <div class="bg-gradient-secondary d-flex align-items-center justify-content-center text-white" style="height: 400px;">
                             <i class="fas fa-mug-hot fa-5x"></i>

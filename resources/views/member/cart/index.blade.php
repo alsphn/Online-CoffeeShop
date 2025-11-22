@@ -60,8 +60,8 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            @if($item->product->image)
-                                            <img src="{{ asset('storage/'.$item->product->image) }}" width="50" height="50" class="mr-3 img-thumbnail" style="object-fit: cover;">
+                                            @if($item->product->image_path)
+                                            <img src="{{ asset('storage/'.$item->product->image_path) }}" width="50" height="50" class="mr-3 img-thumbnail" style="object-fit: cover;">
                                             @endif
                                             <strong>{{ $item->product->name }}</strong>
                                         </div>
