@@ -8,59 +8,44 @@
 
     <title>{{ config('app.name', 'Online CoffeeShop') }}</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AdminLTE -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <style>
-        body {
-            font-family: 'Figtree', sans-serif;
-        }
-
-        .navbar-brand {
-            font-weight: 600;
-            font-size: 1.5rem;
-        }
-    </style>
+    @stack('styles')
 </head>
 
-<body>
-    @include('layouts.navigation')
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        @include('layouts.navigation')
 
-    <!-- Page Content -->
-    <main>
-        @yield('content')
-        {{ $slot ?? '' }}
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4 mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5><i class="fas fa-coffee"></i> Online CoffeeShop</h5>
-                    <p class="text-muted">Nikmati kopi berkualitas terbaik</p>
-                </div>
-                <div class="col-md-6 text-right">
-                    <p class="mb-0">&copy; 2025 Online CoffeeShop. All rights reserved.</p>
-                </div>
-            </div>
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
+            @yield('content')
+            {{ $slot ?? '' }}
         </div>
-    </footer>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2025 <a href="#">Online CoffeeShop</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.0
+            </div>
+        </footer>
+    </div>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap 4 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+
+    @stack('scripts')
 </body>
 
 </html>

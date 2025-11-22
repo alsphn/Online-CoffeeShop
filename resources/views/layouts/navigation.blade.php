@@ -1,88 +1,133 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-    <div class="container">
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{{ route('home') }}" class="brand-link">
+        <i class="fas fa-coffee brand-image"></i>
+        <span class="brand-text font-weight-light">Online CoffeeShop</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel -->
         @auth
-        @if(auth()->user()->role === 'member')
-        <a class="navbar-brand" href="{{ route('member.dashboard') }}">
-            <i class="fas fa-coffee"></i> Online CoffeeShop
-        </a>
-        @else
-        <a class="navbar-brand" href="{{ route('home') }}">
-            <i class="fas fa-coffee"></i> Online CoffeeShop
-        </a>
-        @endif
-        @else
-        <a class="navbar-brand" href="{{ route('home') }}">
-            <i class="fas fa-coffee"></i> Online CoffeeShop
-        </a>
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <i class="fas fa-user-circle fa-2x text-white"></i>
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+            </div>
+        </div>
         @endauth
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 @auth
-                <!-- Tombol Home -->
+                @if(auth()->user()->role === 'member')
+                <!-- Member Menu -->
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('member.dashboard') ? 'active' : '' }}"
-                        href="{{ route('member.dashboard') }}">
-                        <i class="fas fa-home"></i> Home
+                    <a href="{{ route('member.dashboard') }}" class="nav-link {{ request()->routeIs('member.dashboard') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>Dashboard</p>
                     </a>
                 </li>
-
-                <!-- Tombol Menu -->
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
-                        href="{{ route('home') }}">
-                        <i class="fas fa-coffee"></i> Menu
+                    <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-coffee"></i>
+                        <p>Menu Produk</p>
                     </a>
                 </li>
-
-                <!-- Tombol Cart -->
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('member.cart.index') ? 'active' : '' }}"
-                        href="{{ route('member.cart.index') }}">
-                        <i class="fas fa-shopping-cart"></i> Cart
+                    <a href="{{ route('member.cart.index') }}" class="nav-link {{ request()->routeIs('member.cart.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>Keranjang</p>
                     </a>
                 </li>
-
-                <!-- Dropdown User -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user"></i> {{ Auth::user()->name }}
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-                    </div>
-                </li>
-
-                @else
-                <!-- Kalau belum login -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </a>
-                </li>
-                @if (Route::has('register'))
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">
-                        <i class="fas fa-user-plus"></i> Register
+                    <a href="{{ route('member.orders.index') }}" class="nav-link {{ request()->routeIs('member.orders.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>Pesanan Saya</p>
                     </a>
                 </li>
                 @endif
 
+                @if(auth()->user()->role === 'admin')
+                <!-- Admin Menu -->
+                <li class="nav-item">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-coffee"></i>
+                        <p>Produk</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-shopping-bag"></i>
+                        <p>Orders</p>
+                    </a>
+                </li>
+                @endif
+
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}" class="nav-link"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>Logout</p>
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
+                @else
+                <li class="nav-item">
+                    <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>Home</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('login') }}" class="nav-link">
+                        <i class="nav-icon fas fa-sign-in-alt"></i>
+                        <p>Login</p>
+                    </a>
+                </li>
+                @if (Route::has('register'))
+                <li class="nav-item">
+                    <a href="{{ route('register') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user-plus"></i>
+                        <p>Register</p>
+                    </a>
+                </li>
+                @endif
                 @endauth
             </ul>
-        </div>
+        </nav>
     </div>
+</aside>
+
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+        @auth
+        <li class="nav-item">
+            <span class="nav-link">
+                <i class="fas fa-user"></i> {{ Auth::user()->name }}
+            </span>
+        </li>
+        @endauth
+    </ul>
 </nav>
