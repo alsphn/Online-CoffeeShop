@@ -1,47 +1,54 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container">
+        @auth
+        @if(auth()->user()->role === 'member')
+        <a class="navbar-brand" href="{{ route('member.dashboard') }}">
+            <i class="fas fa-coffee"></i> Online CoffeeShop
+        </a>
+        @else
         <a class="navbar-brand" href="{{ route('home') }}">
             <i class="fas fa-coffee"></i> Online CoffeeShop
         </a>
+        @endif
+        @else
+        <a class="navbar-brand" href="{{ route('home') }}">
+            <i class="fas fa-coffee"></i> Online CoffeeShop
+        </a>
+        @endauth
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
+                @auth
+                <!-- Tombol Home -->
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                    <a class="nav-link {{ request()->routeIs('member.dashboard') ? 'active' : '' }}"
+                        href="{{ route('member.dashboard') }}">
                         <i class="fas fa-home"></i> Home
                     </a>
                 </li>
 
-                @auth
-                @if(auth()->user()->role === 'member')
+                <!-- Tombol Menu -->
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('member.dashboard') ? 'active' : '' }}" href="{{ route('member.dashboard') }}">
-                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
+                        href="{{ route('home') }}">
+                        <i class="fas fa-coffee"></i> Menu
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('cart.index') ? 'active' : '' }}" href="{{ route('cart.index') }}">
-                        <i class="fas fa-shopping-cart"></i> Keranjang
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('orders.index') ? 'active' : '' }}" href="{{ route('orders.index') }}">
-                        <i class="fas fa-list"></i> Pesanan
-                    </a>
-                </li>
-                @endif
 
-                @if(auth()->user()->role === 'admin')
+                <!-- Tombol Cart -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.dashboard') }}">
-                        <i class="fas fa-user-shield"></i> Admin Panel
+                    <a class="nav-link {{ request()->routeIs('member.cart.index') ? 'active' : '' }}"
+                        href="{{ route('member.cart.index') }}">
+                        <i class="fas fa-shopping-cart"></i> Cart
                     </a>
                 </li>
-                @endif
 
+                <!-- Dropdown User -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -58,7 +65,9 @@
                         </form>
                     </div>
                 </li>
+
                 @else
+                <!-- Kalau belum login -->
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('login') }}">
                         <i class="fas fa-sign-in-alt"></i> Login
@@ -71,6 +80,7 @@
                     </a>
                 </li>
                 @endif
+
                 @endauth
             </ul>
         </div>

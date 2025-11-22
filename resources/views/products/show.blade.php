@@ -54,7 +54,7 @@
                     <!-- Add to Cart Form -->
                     @auth
                     @if($product->stock > 0)
-                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                    <form action="{{ route('member.cart.add', $product->id) }}" method="POST">
                         @csrf
                         <div class="form-group mb-3">
                             <label for="quantity"><i class="fas fa-shopping-basket"></i> Jumlah</label>

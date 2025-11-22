@@ -15,9 +15,9 @@ Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.show');
 
 // Route untuk MEMBER
-Route::middleware(['auth', 'role:member'])->prefix('member')->prefix('member')->group(function () {
-    Route::get('/member/dashboard', [MemberController::class, 'dashboard'])->name('member.dashboard');
+Route::middleware(['auth', 'role:member'])->prefix('member')->name('member.')->group(function () {
     Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('dashboard');
+
     // Cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');

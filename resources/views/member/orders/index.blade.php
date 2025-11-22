@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-md-4 text-right">
                             <h5 class="text-success mb-3">Rp {{ number_format($order->total, 0, ',', '.') }}</h5>
-                            <a href="{{ route('orders.show', $order->id) }}" class="btn btn-primary">
+                            <a href="{{ route('member.orders.show', $order->id) }}" class="btn btn-primary">
                                 <i class="fas fa-eye"></i> Lihat Detail
                             </a>
                         </div>

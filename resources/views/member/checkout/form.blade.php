@@ -4,6 +4,37 @@
 <div class="container py-4">
     <h1 class="mb-4"><i class="fas fa-credit-card"></i> Checkout</h1>
 
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle"></i> {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
+    @if($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul class="mb-0">
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
     <div class="row">
         <div class="col-md-8">
             <div class="card shadow-sm">
@@ -11,7 +42,7 @@
                     <h5 class="mb-0"><i class="fas fa-shipping-fast"></i> Informasi Pengiriman</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('checkout.process') }}" method="POST">
+                    <form action="{{ route('member.checkout.process') }}" method="POST">
                         @csrf
 
                         <div class="form-group">

@@ -15,7 +15,7 @@ class OrderController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return view('orders.index', compact('orders'));
+        return view('member.orders.index', compact('orders'));
     }
 
     public function show($id)
@@ -24,6 +24,6 @@ class OrderController extends Controller
             ->with('items.product')
             ->findOrFail($id);
 
-        return view('orders.show', compact('order'));
+        return view('member.orders.show', compact('order'));
     }
 }

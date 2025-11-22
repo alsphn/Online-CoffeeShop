@@ -35,7 +35,7 @@
                     <i class="fas fa-shopping-cart fa-3x text-success mb-3"></i>
                     <h5 class="card-title">Keranjang Belanja</h5>
                     <p class="card-text text-muted">Lihat item di keranjang</p>
-                    <a href="{{ route('cart.index') }}" class="btn btn-success">
+                    <a href="{{ route('member.cart.index') }}" class="btn btn-success">
                         <i class="fas fa-arrow-right"></i> Ke Keranjang
                     </a>
                 </div>
@@ -48,7 +48,7 @@
                     <i class="fas fa-history fa-3x text-info mb-3"></i>
                     <h5 class="card-title">Riwayat Pesanan</h5>
                     <p class="card-text text-muted">Cek pesanan Anda</p>
-                    <a href="{{ route('orders.index') }}" class="btn btn-info">
+                    <a href="{{ route('member.orders.index') }}" class="btn btn-info">
                         <i class="fas fa-arrow-right"></i> Lihat Pesanan
                     </a>
                 </div>
@@ -88,7 +88,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('orders.show', $order->id) }}" class="btn btn-sm btn-primary">
+                                        <a href="{{ route('member.orders.show', $order->id) }}" class="btn btn-sm btn-primary">
                                             <i class="fas fa-eye"></i> Detail
                                         </a>
                                     </td>

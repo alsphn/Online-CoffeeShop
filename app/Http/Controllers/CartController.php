@@ -33,13 +33,27 @@ class CartController extends Controller
             ->first();
 
         if ($cartItem) {
-            $cartItem->qty += $quantity;
+            $newQty = $cartItem->qty + $qty;
+
+            // Check if stock is sufficient
+            if ($newQty > $product->stock) {
+                return redirect()->back()
+                    ->with('error', 'Stok produk tidak mencukupi. Stok tersedia: ' . $product->stock);
+            }
+
+            $cartItem->qty = $newQty;
             $cartItem->save();
         } else {
+            // Check if stock is sufficient for new cart item
+            if ($qty > $product->stock) {
+                return redirect()->back()
+                    ->with('error', 'Stok produk tidak mencukupi. Stok tersedia: ' . $product->stock);
+            }
+
             CartItem::create([
                 'cart_id' => $cart->id,
                 'product_id' => $product->id,
-                'qty' => $quantity,
+                'qty' => $qty,
                 'price' => $product->price
             ]);
         }
@@ -51,7 +65,21 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $cartItem = CartItem::findOrFail($id);
-        $cartItem->qty = $request->input('quantity', $request->input('qty', 1));
+
+        // Verify the cart item belongs to the authenticated user
+        if ($cartItem->cart->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $newQty = $request->input('quantity', $request->input('qty', 1));
+
+        // Check if stock is sufficient
+        if ($newQty > $cartItem->product->stock) {
+            return redirect()->back()
+                ->with('error', 'Stok produk tidak mencukupi. Stok tersedia: ' . $cartItem->product->stock);
+        }
+
+        $cartItem->qty = $newQty;
         $cartItem->save();
 
         return redirect()->route('member.cart.index')
@@ -61,6 +89,12 @@ class CartController extends Controller
     public function delete($id)
     {
         $cartItem = CartItem::findOrFail($id);
+
+        // Verify the cart item belongs to the authenticated user
+        if ($cartItem->cart->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $cartItem->delete();
 
         return redirect()->route('member.cart.index')

@@ -16,7 +16,7 @@ class CheckoutController extends Controller
         $cart = Cart::where('user_id', auth()->id())->first();
 
         if (!$cart || $cart->items->count() == 0) {
-            return redirect()->route('cart.index')->with('error', 'Keranjang Anda kosong');
+            return redirect()->route('member.cart.index')->with('error', 'Keranjang Anda kosong');
         }
 
         $cartItems = $cart->items()->with('product')->get();
@@ -24,7 +24,7 @@ class CheckoutController extends Controller
             return $item->qty * $item->price;
         });
 
-        return view('checkout.form', compact('cartItems', 'total'));
+        return view('member.checkout.form', compact('cartItems', 'total'));
     }
 
     public function process(Request $request)
@@ -38,7 +38,7 @@ class CheckoutController extends Controller
         $cart = Cart::where('user_id', auth()->id())->first();
 
         if (!$cart || $cart->items->count() == 0) {
-            return redirect()->route('cart.index')->with('error', 'Keranjang Anda kosong');
+            return redirect()->route('member.cart.index')->with('error', 'Keranjang Anda kosong');
         }
 
         DB::beginTransaction();
@@ -79,7 +79,7 @@ class CheckoutController extends Controller
 
             DB::commit();
 
-            return redirect()->route('orders.show', $order->id)
+            return redirect()->route('member.orders.show', $order->id)
                 ->with('success', 'Pesanan berhasil dibuat!');
         } catch (\Exception $e) {
             DB::rollback();

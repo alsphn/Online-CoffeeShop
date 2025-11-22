@@ -4,6 +4,24 @@
 <div class="container py-4">
     <h1 class="mb-4"><i class="fas fa-shopping-cart"></i> Keranjang Belanja</h1>
 
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle"></i> {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
     @if(isset($cartItems) && count($cartItems) > 0)
     <div class="row">
         <div class="col-md-8">
@@ -32,14 +50,14 @@
                                 </td>
                                 <td>Rp {{ number_format($item->product->price, 0, ',', '.') }}</td>
                                 <td>
-                                    <form action="{{ route('cart.update', $item->id) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('member.cart.update', $item->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" max="{{ $item->product->stock }}" class="form-control form-control-sm" style="width: 80px;" onchange="this.form.submit()">
                                     </form>
                                 </td>
                                 <td><strong>Rp {{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}</strong></td>
                                 <td>
-                                    <form action="{{ route('cart.delete', $item->id) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('member.cart.delete', $item->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Hapus item ini?')">
@@ -70,7 +88,7 @@
                         <h5>Total</h5>
                         <h5><strong>Rp {{ number_format($total ?? 0, 0, ',', '.') }}</strong></h5>
                     </div>
-                    <a href="{{ route('checkout.form') }}" class="btn btn-success btn-block btn-lg">
+                    <a href="{{ route('member.checkout.form') }}" class="btn btn-success btn-block btn-lg">
                         <i class="fas fa-check"></i> Checkout
                     </a>
                     <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-block mt-2">

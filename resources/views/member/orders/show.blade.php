@@ -2,11 +2,20 @@
 
 @section('content')
 <div class="container py-4">
-    <a href="{{ route('orders.index') }}" class="btn btn-secondary mb-3">
+    <a href="{{ route('member.orders.index') }}" class="btn btn-secondary mb-3">
         <i class="fas fa-arrow-left"></i> Kembali
     </a>
 
     <h1 class="mb-4"><i class="fas fa-receipt"></i> Detail Pesanan #{{ $order->id }}</h1>
+
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle"></i> {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
 
     <div class="row">
         <div class="col-md-8">
@@ -25,7 +34,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($order->orderItems as $item)
+                            @foreach($order->items as $item)
                             <tr>
                                 <td>{{ $item->product->name ?? 'N/A' }}</td>
                                 <td>Rp {{ number_format($item->price, 0, ',', '.') }}</td>
